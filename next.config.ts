@@ -1,8 +1,14 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    root: __dirname,
+  experimental: {
+    optimizePackageImports: ['lucide-react', 'framer-motion', '@prisma/client', '@supabase/supabase-js'],
+  },
+  compress: true,
+  logging: {
+    fetches: {
+      fullUrl: false,
+    },
   },
 };
 

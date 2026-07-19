@@ -934,6 +934,15 @@ export const staticServices: GovServiceDetail[] = [
   }
 ]
 
+function withTimeout<T>(promise: Promise<T>, timeoutMs = 500): Promise<T> {
+  return Promise.race([
+    promise,
+    new Promise<T>((_, reject) =>
+      setTimeout(() => reject(new Error("Database query timeout")), timeoutMs)
+    )
+  ])
+}
+
 export async function getServices(category?: string, query?: string): Promise<GovServiceDetail[]> {
   try {
     // If Prisma client is ready and connected, fetch from database.
@@ -941,21 +950,24 @@ export async function getServices(category?: string, query?: string): Promise<Go
     const hasDb = process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('localhost')
     if (hasDb) {
       const prisma = (await import('@/db/prisma')).default
-      const dbServices = await prisma.govService.findMany({
-        where: {
-          ...(category ? { category: { slug: category } } : {}),
-          ...(query ? {
-            OR: [
-              { title: { contains: query, mode: 'insensitive' } },
-              { summary: { contains: query, mode: 'insensitive' } }
-            ]
-          } : {}),
-          isPublished: true
-        },
-        include: {
-          category: true
-        }
-      })
+      const dbServices = await withTimeout(
+        prisma.govService.findMany({
+          where: {
+            ...(category ? { category: { slug: category } } : {}),
+            ...(query ? {
+              OR: [
+                { title: { contains: query, mode: 'insensitive' } },
+                { summary: { contains: query, mode: 'insensitive' } }
+              ]
+            } : {}),
+            isPublished: true
+          },
+          include: {
+            category: true
+          }
+        }),
+        500
+      )
 
       if (dbServices.length > 0) {
         return dbServices.map((ds) => ({
@@ -1000,16 +1012,20 @@ export async function getServiceBySlug(slug: string): Promise<GovServiceDetail |
     const hasDb = process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('localhost')
     if (hasDb) {
       const prisma = (await import('@/db/prisma')).default
-      const ds = await prisma.govService.findUnique({
-        where: { slug },
-        include: {
-          category: true,
-          documents: true,
-          steps: { orderBy: { stepNumber: 'asc' } },
-          fees: true,
-          faqs: true
-        }
-      }) as DbGovService | null
+      const ds = await withTimeout(
+        prisma.govService.findUnique({
+          where: { slug },
+          include: {
+            category: true,
+            documents: true,
+            steps: { orderBy: { stepNumber: 'asc' } },
+            fees: true,
+            faqs: true
+          }
+        }),
+        500
+      ) as DbGovService | null
+
       if (ds) {
         return {
           id: ds.id,
