@@ -212,17 +212,17 @@ export function Navbar() {
             className="md:hidden border-b border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 px-6 py-4 space-y-4 shadow-lg overflow-hidden"
           >
             <nav className="flex flex-col gap-3 font-semibold text-xs text-left">
-              <Link href="/services" onClick={() => setMobileMenuOpen(false)} className="py-1 hover:text-emerald-700 dark:hover:text-emerald-400">Services</Link>
-              <Link href="/chat" onClick={() => setMobileMenuOpen(false)} className="py-1 flex items-center gap-1.5 hover:text-emerald-700 dark:hover:text-emerald-400">
+              <Link href="/services" onClick={() => setMobileMenuOpen(false)} className="py-1 text-slate-800 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-emerald-400">Services</Link>
+              <Link href="/chat" onClick={() => setMobileMenuOpen(false)} className="py-1 flex items-center gap-1.5 text-slate-800 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-emerald-400">
                 <Sparkles className="h-3.5 w-3.5 text-emerald-600 dark:text-emerald-400 animate-pulse" />
                 <span>AI Assistant</span>
               </Link>
               
               {user ? (
                 <>
-                  <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="py-1 hover:text-emerald-700 dark:hover:text-emerald-400">User Dashboard</Link>
+                  <Link href="/dashboard" onClick={() => setMobileMenuOpen(false)} className="py-1 text-slate-800 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-emerald-400">User Dashboard</Link>
                   {isAdmin && (
-                    <Link href="/admin" onClick={() => setMobileMenuOpen(false)} className="py-1 hover:text-emerald-700 dark:hover:text-emerald-400">Admin Console</Link>
+                    <Link href="/admin" onClick={() => setMobileMenuOpen(false)} className="py-1 text-slate-800 dark:text-slate-200 hover:text-emerald-700 dark:hover:text-emerald-400">Admin Console</Link>
                   )}
                   <button 
                     onClick={() => { setMobileMenuOpen(false); handleSignOut() }}

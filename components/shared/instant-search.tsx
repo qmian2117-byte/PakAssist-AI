@@ -134,7 +134,7 @@ function InstantSearchContent() {
           onChange={(e) => { setQuery(e.target.value); setIsOpen(true) }}
           onFocus={() => setIsOpen(true)}
           placeholder="Search Passport renewals, NTN register, police certificate..."
-          className="border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 text-xs font-semibold h-full w-full dark:bg-transparent placeholder:text-slate-400"
+          className="border-0 shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 text-xs font-semibold h-full w-full bg-transparent text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
         />
         {query && (
           <button 
