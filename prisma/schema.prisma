@@ -1,0 +1,196 @@
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum SenderType {
+  USER
+  SYSTEM
+}
+
+model UserProfile {
+  id            String          @id @default(uuid())
+  supabaseId    String          @unique // Links to Supabase auth.users.id
+  email         String          @unique
+  fullName      String?
+  avatarUrl     String?
+  role          Role            @default(USER)
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  
+  bookmarks     Bookmark[]
+  chatSessions  ChatSession[]
+  searchHistory SearchHistory[]
+  feedbacks     Feedback[]
+}
+
+model ServiceCategory {
+  id          String        @id @default(uuid())
+  name        String        @unique // NADRA, Passport, Driving License, HEC Scholarships, Business Registration
+  slug        String        @unique
+  description String?
+  icon        String?       // Lucide icon key name
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  
+  services    GovService[]
+}
+
+model GovService {
+  id                String          @id @default(uuid())
+  categoryId        String
+  category          ServiceCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  title             String
+  slug              String          @unique
+  summary           String
+  officialSourceUrl String?
+  processingTime    String?
+  baseFee           Decimal?        @db.Decimal(10, 2)
+  difficulty        String          @default("Medium") // Easy, Medium, Hard
+  isPublished       Boolean         @default(false)
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+
+  documents         ServiceDocument[]
+  steps             ServiceStep[]
+  fees              ServiceFee[]
+  faqs              ServiceFAQ[]
+  bookmarks         Bookmark[]
+
+  @@index([categoryId])
+}
+
+model ServiceDocument {
+  id               String      @id @default(uuid())
+  serviceId        String
+  service          GovService  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  title            String
+  description      String?
+  isRequired       Boolean     @default(true)
+  isOriginalNeeded Boolean     @default(true)
+  copiesRequired   Int         @default(0)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  @@index([serviceId])
+}
+
+model ServiceStep {
+  id          String      @id @default(uuid())
+  serviceId   String
+  service     GovService  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  stepNumber  Int
+  title       String
+  description String
+  tip         String?
+  duration    String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@unique([serviceId, stepNumber])
+  @@index([serviceId])
+}
+
+model ServiceFee {
+  id          String      @id @default(uuid())
+  serviceId   String
+  service     GovService  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  title       String      // e.g., "Normal (36 Pages - 5 Years)", "Urgent (72 Pages - 10 Years)"
+  amount      Decimal     @db.Decimal(10, 2)
+  currency    String      @default("PKR")
+  notes       String?
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+
+  @@index([serviceId])
+}
+
+model ServiceFAQ {
+  id        String      @id @default(uuid())
+  serviceId String
+  service   GovService  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  question  String
+  answer    String
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  @@index([serviceId])
+}
+
+model Bookmark {
+  id        String      @id @default(uuid())
+  userId    String
+  user      UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  serviceId String
+  service   GovService  @relation(fields: [serviceId], references: [id], onDelete: Cascade)
+  createdAt DateTime    @default(now())
+
+  @@unique([userId, serviceId])
+  @@index([userId])
+  @@index([serviceId])
+}
+
+model ChatSession {
+  id        String      @id @default(uuid())
+  userId    String
+  user      UserProfile @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String      @default("New Session")
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  
+  messages  ChatMessage[]
+
+  @@index([userId])
+}
+
+model ChatMessage {
+  id        String      @id @default(uuid())
+  sessionId String
+  session   ChatSession @relation(fields: [sessionId], references: [id], onDelete: Cascade)
+  sender    SenderType
+  content   String
+  metadata  Json?       // Source links or citations
+  createdAt DateTime    @default(now())
+
+  @@index([sessionId])
+}
+
+model SearchHistory {
+  id        String      @id @default(uuid())
+  userId    String?
+  user      UserProfile? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  query     String
+  createdAt DateTime    @default(now())
+
+  @@index([userId])
+}
+
+model Feedback {
+  id        String      @id @default(uuid())
+  userId    String?
+  user      UserProfile? @relation(fields: [userId], references: [id], onDelete: SetNull)
+  serviceId String?
+  category  String?     // "AI Response Quality", "Information Outdated", "UI Bug"
+  rating    Int         // 1 to 5
+  comment   String?
+  createdAt DateTime    @default(now())
+
+  @@index([userId])
+}
+
+model Announcement {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  createdAt DateTime @default(now())
+}
