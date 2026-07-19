@@ -175,7 +175,7 @@ export function Navbar() {
           ) : (
             <div className="flex items-center gap-2.5">
               <Link href="/login">
-                <Button variant="ghost" size="sm" className="font-bold text-xs text-slate-600 hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">Login</Button>
+                <Button variant="ghost" size="sm" className="font-extrabold text-xs text-slate-800 hover:text-slate-950 dark:text-slate-200 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 px-3 py-1.5 rounded-xl">Login</Button>
               </Link>
               <Link href="/signup">
                 <Button size="sm" className="bg-gradient-to-r from-emerald-600 via-teal-600 to-emerald-700 hover:from-emerald-700 hover:to-teal-800 text-white font-extrabold text-xs rounded-xl px-4 shadow-md shadow-emerald-600/20 transition-all hover:scale-[1.02]">Get Started</Button>

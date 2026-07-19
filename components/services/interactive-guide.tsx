@@ -55,7 +55,7 @@ export function InteractiveGuide({ service }: { service: GovServiceDetail }) {
             </span>
           </div>
 
-          <p className="text-xs text-muted-foreground mb-4">
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mb-4">
             Cross off the documents you have ready. We only calculate required items for preparation status.
           </p>
 
@@ -77,7 +77,7 @@ export function InteractiveGuide({ service }: { service: GovServiceDetail }) {
                   className={`flex items-start gap-3 p-3 rounded-lg border cursor-pointer select-none transition-all ${
                     isChecked 
                       ? 'bg-emerald-500/5 border-emerald-500/20' 
-                      : 'bg-background border-border hover:border-muted-foreground/30'
+                      : 'bg-card border-border hover:border-muted-foreground/30'
                   }`}
                 >
                   <div className={`mt-0.5 h-4.5 w-4.5 rounded border flex items-center justify-center transition-all shrink-0 ${
@@ -88,18 +88,18 @@ export function InteractiveGuide({ service }: { service: GovServiceDetail }) {
                     {isChecked && <Check className="h-3 w-3" />}
                   </div>
                   <div>
-                    <div className="text-sm font-medium flex items-center gap-2">
-                      <span className={isChecked ? 'line-through text-muted-foreground' : 'text-foreground'}>
+                    <div className="text-sm font-semibold flex items-center gap-2">
+                      <span className={isChecked ? 'line-through text-slate-400 dark:text-slate-500' : 'text-slate-900 dark:text-slate-100'}>
                         {doc.title}
                       </span>
                       {doc.isRequired ? (
-                        <span className="text-[9px] bg-red-400/10 text-red-600 px-1.5 py-0.2 rounded font-mono font-semibold uppercase">Required</span>
+                        <span className="text-[9px] bg-red-400/10 text-red-600 dark:text-red-400 px-1.5 py-0.2 rounded font-mono font-bold uppercase">Required</span>
                       ) : (
-                        <span className="text-[9px] bg-muted text-muted-foreground px-1.5 py-0.2 rounded font-mono font-semibold uppercase">Optional</span>
+                        <span className="text-[9px] bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 px-1.5 py-0.2 rounded font-mono font-bold uppercase">Optional</span>
                       )}
                     </div>
                     {doc.description && (
-                      <p className="text-xs text-muted-foreground mt-0.5">{doc.description}</p>
+                      <p className="text-xs text-slate-700 dark:text-slate-300 font-medium mt-0.5">{doc.description}</p>
                     )}
                   </div>
                 </div>
@@ -110,8 +110,8 @@ export function InteractiveGuide({ service }: { service: GovServiceDetail }) {
 
         {/* Step by Step Vertical Stepper */}
         <div className="rounded-xl border border-border bg-card p-6 shadow-xs">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-6 flex items-center gap-2">
-            <CheckCircle2 className="h-4 w-4 text-primary" />
+          <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-6 flex items-center gap-2">
+            <CheckCircle2 className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
             Step-by-step Procedure
           </h3>
 
@@ -119,15 +119,15 @@ export function InteractiveGuide({ service }: { service: GovServiceDetail }) {
             {service.steps.map((step) => (
               <div key={step.stepNumber} className="relative">
                 {/* Stepper bubble */}
-                <div className="absolute -left-[35px] top-0 h-6.5 w-6.5 rounded-full bg-primary text-primary-foreground border-4 border-background flex items-center justify-center font-mono font-bold text-xs">
+                <div className="absolute -left-[35px] top-0 h-6.5 w-6.5 rounded-full bg-emerald-600 dark:bg-emerald-500 text-white border-4 border-card flex items-center justify-center font-mono font-bold text-xs">
                   {step.stepNumber}
                 </div>
                 <div>
-                  <h4 className="text-sm font-bold text-foreground">{step.title}</h4>
-                  <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">{step.description}</p>
+                  <h4 className="text-sm font-bold text-slate-900 dark:text-white">{step.title}</h4>
+                  <p className="text-xs text-slate-700 dark:text-slate-300 font-medium mt-1.5 leading-relaxed">{step.description}</p>
                   {step.tip && (
-                    <div className="mt-2.5 rounded bg-muted/65 p-2.5 text-xs text-muted-foreground border-l-2 border-primary">
-                      <span className="font-semibold text-foreground">Pro Tip: </span>
+                    <div className="mt-2.5 rounded bg-emerald-500/10 p-2.5 text-xs text-slate-800 dark:text-slate-200 font-medium border-l-2 border-emerald-500">
+                      <span className="font-bold text-emerald-700 dark:text-emerald-400">Pro Tip: </span>
                       {step.tip}
                     </div>
                   )}
@@ -142,12 +142,12 @@ export function InteractiveGuide({ service }: { service: GovServiceDetail }) {
       <div className="lg:col-span-5 space-y-6">
         {/* Dynamic Fee Calculator */}
         <div className="rounded-xl border border-border bg-card p-6 shadow-xs">
-          <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-            <CreditCard className="h-4 w-4 text-primary" />
+          <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-4 flex items-center gap-2">
+            <CreditCard className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
             Fee & Processing Options
           </h3>
 
-          <p className="text-xs text-muted-foreground mb-4">
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-medium mb-4">
             Select your preferred speed and validity option to calculate total cost:
           </p>
 
@@ -158,37 +158,37 @@ export function InteractiveGuide({ service }: { service: GovServiceDetail }) {
                 onClick={() => setSelectedFeeIndex(idx)}
                 className={`flex justify-between items-center p-3 rounded-lg border cursor-pointer select-none transition-all ${
                   selectedFeeIndex === idx 
-                    ? 'bg-primary/5 border-primary/30 font-medium' 
-                    : 'bg-background border-border hover:border-muted-foreground/30'
+                    ? 'bg-emerald-500/10 border-emerald-500/40 font-semibold' 
+                    : 'bg-card border-border hover:border-slate-400'
                 }`}
               >
                 <div className="text-xs">
-                  <div className="font-medium text-foreground">{fee.title}</div>
-                  {fee.notes && <p className="text-[10px] text-muted-foreground mt-0.5">{fee.notes}</p>}
+                  <div className="font-bold text-slate-900 dark:text-white">{fee.title}</div>
+                  {fee.notes && <p className="text-[10px] text-slate-600 dark:text-slate-400 mt-0.5 font-medium">{fee.notes}</p>}
                 </div>
-                <div className="text-sm font-bold text-primary shrink-0">{fee.amount}</div>
+                <div className="text-sm font-black text-emerald-600 dark:text-emerald-400 shrink-0">{fee.amount}</div>
               </div>
             ))}
           </div>
 
-          <div className="mt-6 border-t border-border pt-4 flex justify-between items-center bg-muted/20 -mx-6 -mb-6 p-6 rounded-b-xl">
-            <span className="text-xs text-muted-foreground uppercase font-bold tracking-wider">Total Fees Due</span>
-            <span className="text-lg font-bold text-foreground">{service.fees[selectedFeeIndex]?.amount}</span>
+          <div className="mt-6 border-t border-border pt-4 flex justify-between items-center bg-slate-100/80 dark:bg-slate-900/80 -mx-6 -mb-6 p-6 rounded-b-xl">
+            <span className="text-xs text-slate-700 dark:text-slate-300 uppercase font-bold tracking-wider">Total Fees Due</span>
+            <span className="text-lg font-black text-slate-900 dark:text-white">{service.fees[selectedFeeIndex]?.amount}</span>
           </div>
         </div>
 
         {/* FAQs list */}
         {service.faqs && service.faqs.length > 0 && (
           <div className="rounded-xl border border-border bg-card p-6 shadow-xs">
-            <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4 flex items-center gap-2">
-              <HelpCircle className="h-4 w-4 text-primary" />
+            <h3 className="text-sm font-bold text-slate-800 dark:text-slate-200 uppercase tracking-wider mb-4 flex items-center gap-2">
+              <HelpCircle className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
               Service Specific FAQs
             </h3>
             <div className="space-y-4">
               {service.faqs.map((faq, idx) => (
                 <div key={idx} className="text-xs border-b border-border/40 pb-3 last:border-b-0 last:pb-0">
-                  <div className="font-semibold text-foreground">{faq.question}</div>
-                  <div className="text-muted-foreground mt-1 leading-relaxed">{faq.answer}</div>
+                  <div className="font-bold text-slate-900 dark:text-white">{faq.question}</div>
+                  <div className="text-slate-700 dark:text-slate-300 font-medium mt-1 leading-relaxed">{faq.answer}</div>
                 </div>
               ))}
             </div>

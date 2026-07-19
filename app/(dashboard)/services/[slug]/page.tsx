@@ -68,8 +68,8 @@ export default async function ServiceDetailPage({ params }: PageProps) {
                 Verified Guidelines
               </Badge>
             </div>
-            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-foreground">{service.title}</h1>
-            <p className="text-sm text-muted-foreground leading-relaxed">{service.summary}</p>
+            <h1 className="text-2xl md:text-3xl font-extrabold tracking-tight text-slate-900 dark:text-white">{service.title}</h1>
+            <p className="text-sm text-slate-700 dark:text-slate-300 font-semibold leading-relaxed">{service.summary}</p>
           </div>
 
           <div className="flex flex-col sm:flex-row md:flex-col gap-2 w-full md:w-auto">
