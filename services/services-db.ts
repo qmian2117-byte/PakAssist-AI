@@ -1,5 +1,4 @@
-import prisma from '@/db/prisma'
-import { Prisma } from '@prisma/client'
+import type { Prisma } from '@prisma/client'
 
 type DbGovService = Prisma.GovServiceGetPayload<{
   include: {
@@ -941,6 +940,7 @@ export async function getServices(category?: string, query?: string): Promise<Go
     // Otherwise, fallback to static mock data.
     const hasDb = process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('localhost')
     if (hasDb) {
+      const prisma = (await import('@/db/prisma')).default
       const dbServices = await prisma.govService.findMany({
         where: {
           ...(category ? { category: { slug: category } } : {}),
@@ -999,6 +999,7 @@ export async function getServiceBySlug(slug: string): Promise<GovServiceDetail |
   try {
     const hasDb = process.env.DATABASE_URL && !process.env.DATABASE_URL.includes('localhost')
     if (hasDb) {
+      const prisma = (await import('@/db/prisma')).default
       const ds = await prisma.govService.findUnique({
         where: { slug },
         include: {
