@@ -1,3 +1,5 @@
+**Live Application:** [https://pakasist-ai.vercel.app/](https://pakasist-ai.vercel.app/)
+
 # PakAssist AI — Citizen Assistance Platform
 
 PakAssist AI is an enterprise-grade AI-powered assistant designed for citizens in Pakistan to understand and navigate government administrative procedures (NADRA CNICs, Passports, Driving Licenses, HEC Scholarships, SECP Business Registrations, FBR Taxes, Utilities, and Legal matters) through a zero-hallucination database-anchored AI agent.
